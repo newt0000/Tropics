@@ -1,0 +1,6 @@
+name: Tropics
+version: '${version}'
+
+main: com.newttech.tropics.Tropics
+api-version: '26.2'
+load: POSTWORLD
