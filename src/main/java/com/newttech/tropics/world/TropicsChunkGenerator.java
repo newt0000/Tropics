@@ -3,6 +3,7 @@ package com.newttech.tropics.world;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
+import org.bukkit.generator.WorldInfo;
 
 import java.util.Random;
 
@@ -11,8 +12,15 @@ public class TropicsChunkGenerator extends ChunkGenerator {
     public static void setDecorator(WorldDecorator d) {
         decorator = d;
     }
+
     @Override
-    public void generateNoise(World world, Random random, int chunkX, int chunkZ, ChunkData chunkData) {
+    public ChunkData generateChunkData(World world,
+                                       Random random,
+                                       int chunkX,
+                                       int chunkZ,
+                                       BiomeGrid biome) {
+
+        ChunkData chunkData = createChunkData(world);
 
         int baseHeight = 64;
 
@@ -23,31 +31,29 @@ public class TropicsChunkGenerator extends ChunkGenerator {
                 int worldZ = chunkZ * 16 + z;
 
                 double height = TerrainGenerator.getTerrainHeight(worldX, worldZ);
-
                 int finalHeight = (int) (baseHeight + height);
 
-                // Ocean floor
                 for (int y = 0; y < 50; y++) {
                     chunkData.setBlock(x, y, z, org.bukkit.Material.STONE);
                 }
 
-                // Water layer
                 for (int y = 50; y < 62; y++) {
                     chunkData.setBlock(x, y, z, org.bukkit.Material.WATER);
                 }
 
-                // Terrain surface
                 chunkData.setBlock(x, finalHeight, z, getSurfaceBlock(height));
 
-                // Fill below surface
                 for (int y = 51; y < finalHeight; y++) {
                     chunkData.setBlock(x, y, z, org.bukkit.Material.DIRT);
                 }
             }
         }
+
         if (decorator != null) {
             decorator.decorateChunk(world, chunkX, chunkZ);
         }
+
+        return chunkData;
     }
 
     private org.bukkit.Material getSurfaceBlock(double height) {

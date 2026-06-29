@@ -1,0 +1,6 @@
+name: Tropics
+version: '1.0-SNAPSHOT'
+
+main: com.newttech.tropics.Tropics
+api-version: '26.2'
+load: POSTWORLD

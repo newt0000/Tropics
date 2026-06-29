@@ -32,3 +32,11 @@ tasks {
         }
     }
 }
+tasks.register<Exec>("bumpVersionScript") {
+    workingDir = rootDir
+    commandLine("cmd", "/c", "bump-version.bat")
+}
+
+tasks.jar {
+    finalizedBy("bumpVersionScript")
+}
