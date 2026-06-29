@@ -7,7 +7,10 @@ import org.bukkit.generator.ChunkGenerator.ChunkData;
 import java.util.Random;
 
 public class TropicsChunkGenerator extends ChunkGenerator {
-
+    private static WorldDecorator decorator;
+    public static void setDecorator(WorldDecorator d) {
+        decorator = d;
+    }
     @Override
     public void generateNoise(World world, Random random, int chunkX, int chunkZ, ChunkData chunkData) {
 
@@ -41,6 +44,9 @@ public class TropicsChunkGenerator extends ChunkGenerator {
                     chunkData.setBlock(x, y, z, org.bukkit.Material.DIRT);
                 }
             }
+        }
+        if (decorator != null) {
+            decorator.decorateChunk(world, chunkX, chunkZ);
         }
     }
 
